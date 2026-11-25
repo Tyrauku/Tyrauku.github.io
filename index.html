@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tyrauku Tools</title>
-<meta name="description" content="Tyrauku's free calculators and planners for Invokers: Titan Legacy and RAID: Shadow Legends, in one place.">
+<meta name="description" content="Tyrauku's free calculators and planners for Invokers: Titan Legacy, in one place, plus a RAID offer calculator.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -75,16 +75,6 @@ a.card:hover, a.card:focus-visible { border-color: rgba(228, 190, 92, .7); trans
 a.card:has(.badge) h3 { padding-right: 52px; }
 .badge { position: absolute; top: 14px; right: 14px; font: 700 10.5px/1 var(--body); letter-spacing: .06em; text-transform: uppercase; color: #281604; background: linear-gradient(180deg, var(--gold-lt), var(--gold)); border-radius: 999px; padding: 4px 8px; }
 
-details.archive { margin-top: 14px; border: 1px solid var(--line-soft); border-radius: 8px; background: rgba(15,14,16,.7); }
-details.archive summary { cursor: pointer; padding: 14px 18px; font: 800 17px/1 var(--display); text-transform: uppercase; letter-spacing: .06em; color: var(--gold-lt); list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
-details.archive summary::-webkit-details-marker { display: none; }
-details.archive summary::after { content: "+"; font-size: 22px; color: var(--gold); }
-details.archive[open] summary::after { content: "–"; }
-details.archive summary small { font: 500 12px var(--body); text-transform: none; letter-spacing: 0; color: var(--faint); margin-left: 8px; }
-.alist { list-style: none; margin: 0; padding: 0 18px 14px; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 2px 18px; }
-.alist a { display: block; padding: 8px 0; border-bottom: 1px solid var(--line-soft); text-decoration: none; color: var(--text); font-size: 13.5px; }
-.alist a:hover { color: var(--gold-lt); }
-.alist span { color: var(--faint); font-size: 12px; }
 
 .social { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
 .social a.card h3 { display: flex; align-items: center; gap: 10px; }
@@ -110,7 +100,7 @@ footer b { color: var(--muted); }
   <header class="hero">
     <h1><span class="l1 silvert">Tyrauku</span><span class="l2 goldt">Tools</span></h1>
     <div class="rule"><i></i></div>
-    <p>Free calculators and planners for Invokers: Titan Legacy and RAID: Shadow Legends, all in one place.</p>
+    <p>Free calculators and planners for Invokers: Titan Legacy, all in one place.</p>
   </header>
 
   <section>
@@ -142,43 +132,14 @@ footer b { color: var(--muted); }
   </section>
 
   <section id="raid">
-    <div class="sh"><div class="row"><h2>RAID: Shadow Legends</h2></div><span class="note">Planners from the RAID channel</span></div>
-    <div class="grid">
+    <div class="sh"><div class="row"><h2>Also for RAID</h2></div></div>
+    <div class="grid two">
       <a class="card" href="/RaidCalculator/">
-        <h3 class="silvert">Offer Calculator</h3>
-        <p>Is that RAID pack worth it? Enter the price and what's inside to see its value.</p>
+        <h3 class="silvert">RAID Offer Calculator</h3>
+        <p>Is that RAID: Shadow Legends pack worth it? Enter the price and what's inside to see its value.</p>
         <span class="go">Open calculator →</span>
       </a>
-      <a class="card" href="/RelicCrafting/">
-        <h3 class="silvert">Relic Crafting Optimizer</h3>
-        <p>Work out the best way to spend your materials when crafting relics.</p>
-        <span class="go">Open optimizer →</span>
-      </a>
-      <a class="card" href="/raid-challenge-tracker/">
-        <h3 class="silvert">5 Legendary Challenge</h3>
-        <p>Tracker for Tyrauku's challenge to beat the game with a team of five Legendary champions.</p>
-        <span class="go">Open tracker →</span>
-      </a>
     </div>
-
-    <details class="archive">
-      <summary><span>Past event planners<small>13 RAID events, newest first</small></span></summary>
-      <ul class="alist">
-        <li><a href="/7thAnniversaryPath/">Anniversary Path <span>· coin planner</span></a></li>
-        <li><a href="/SweetHeartPath/">Sweetheart Heroes Path <span>· heart coins</span></a></li>
-        <li><a href="/Deck-of-Valor-2-2-26/">Valor Deck of Fate <span>· fate feathers</span></a></li>
-        <li><a href="/YukiandHilviSoul/">Yuki &amp; Hilvi Heroes Path <span>· snow coins</span></a></li>
-        <li><a href="/YuletideDeckofFate/">Yuletide Deck of Fate <span>· fate crystals</span></a></li>
-        <li><a href="/PredatorsPath/">Predator's Path <span>· lethal coins</span></a></li>
-        <li><a href="/SwordmasterPath2025/">Swordmaster Path <span>· pizza coins</span></a></li>
-        <li><a href="/HalloweenPath2025/">Halloween Path <span>· pumpkin coins</span></a></li>
-        <li><a href="/Hothead-DOF/">Hot Head Deck of Fate <span>· pizza points</span></a></li>
-        <li><a href="/hunting-coins/">Orc's Path <span>· hunting coins</span></a></li>
-        <li><a href="/PathofTheLost/">Path of the Lost <span>· calculator</span></a></li>
-        <li><a href="/InfernalDeckofFate/">Infernal Deck of Fate <span>· Gracchos</span></a></li>
-        <li><a href="/demonic-DoF/">Demonic Deck of Fate <span>· calculator</span></a></li>
-      </ul>
-    </details>
   </section>
 
   <section>
