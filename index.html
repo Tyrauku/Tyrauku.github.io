@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tyrauku Tools</title>
+<meta name="description" content="Tyrauku's free calculators and planners for Invokers: Titan Legacy and RAID: Shadow Legends, in one place.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Same Tyrauku look as the Trophy Hall planner: graphite + ember glow, one gold accent, silver over gold. */
+:root {
+  --ink: #09090b; --panel-hi: #17171b; --line: #3e3e44; --line-soft: #26262b;
+  --text: #f2f2f3; --muted: #9a9aa3; --faint: #6b6b74;
+  --gold: #e4be5c; --gold-dk: #9c6a22; --gold-lt: #eedaa8; --yt: #ff0033; --dc: #5865f2;
+  --edge: rgba(228, 190, 92, .30); --ember: rgba(214, 120, 48, .20);
+  --display: "Barlow Condensed", "Arial Narrow", system-ui, sans-serif;
+  --body: "Montserrat", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; color: var(--text); font: 14.5px/1.6 var(--body); background-color: #0b0b0d;
+  background-image:
+    radial-gradient(ellipse 85% 55% at 50% -14%, var(--ember), transparent 70%),
+    repeating-linear-gradient(60deg, rgba(228, 190, 92, .028) 0 1px, transparent 1px 38px),
+    repeating-linear-gradient(-60deg, rgba(228, 190, 92, .028) 0 1px, transparent 1px 38px);
+  background-attachment: fixed; }
+a { color: var(--gold-lt); }
+p { margin: 0; }
+.wrap { max-width: 960px; margin: 0 auto; padding: 0 16px 64px; display: flex; flex-direction: column; gap: 44px; }
+.goldt { background: linear-gradient(180deg, var(--gold-lt) 0%, var(--gold) 48%, var(--gold-dk) 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.silvert { background: linear-gradient(180deg, #ffffff 0%, #dcdce0 55%, #a9a9b0 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+.brand { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 0 14px; border-bottom: 1px solid; border-image: linear-gradient(90deg, transparent, var(--edge), transparent) 1; }
+.brand .word { font: 900 26px/1 var(--display); letter-spacing: .04em; text-transform: uppercase; }
+.brand .links { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+.pill { display: inline-flex; align-items: center; gap: 7px; font: 600 12px/1 var(--body); color: var(--text); text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 7px 11px; background: rgba(0,0,0,.25); }
+.pill:hover { border-color: var(--gold); }
+.pill svg { width: 18px; height: 13px; flex: none; }
+
+.hero { display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; padding-top: 6px; }
+.hero h1 { margin: 0; font-family: var(--display); font-weight: 900; text-transform: uppercase; line-height: .88; }
+.hero h1 span { display: block; }
+.hero h1 .l1 { font-size: clamp(28px, 6vw, 42px); letter-spacing: .14em; }
+.hero h1 .l2 { font-size: clamp(60px, 13vw, 104px); letter-spacing: .02em; filter: drop-shadow(0 0 18px rgba(228, 190, 92, .28)) drop-shadow(0 3px 0 rgba(0, 0, 0, .6)); }
+.hero p { color: var(--muted); max-width: 54ch; }
+.rule { display: flex; align-items: center; gap: 10px; width: min(420px, 90%); }
+.rule::before, .rule::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold)); }
+.rule::after { background: linear-gradient(270deg, transparent, var(--gold)); }
+.rule i { width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 8px solid var(--gold); }
+
+.sh { display: flex; flex-direction: column; align-items: center; gap: 4px; margin: 0 0 18px; text-align: center; }
+.sh .row { display: flex; align-items: center; gap: 14px; width: 100%; justify-content: center; }
+.sh .row::before, .sh .row::after { content: ""; flex: 1 1 0; min-width: 14px; max-width: 220px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold)); }
+.sh .row::after { background: linear-gradient(270deg, transparent, var(--gold)); }
+.sh h2 { margin: 0; font: 900 clamp(24px, 4.4vw, 34px)/1 var(--display); text-transform: uppercase; letter-spacing: .05em;
+  background: linear-gradient(180deg, var(--gold-lt), var(--gold) 50%, var(--gold-dk)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.sh .note { color: var(--muted); font-size: 12.5px; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+a.card { position: relative; display: flex; flex-direction: column; gap: 8px; padding: 18px 18px 16px; text-decoration: none; color: var(--text);
+  border: 1px solid var(--edge); border-radius: 8px;
+  --c: var(--gold); --s: 14px; --w: 2px;
+  background:
+    linear-gradient(var(--c), var(--c)) top left / var(--s) var(--w) no-repeat, linear-gradient(var(--c), var(--c)) top left / var(--w) var(--s) no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom right / var(--s) var(--w) no-repeat, linear-gradient(var(--c), var(--c)) bottom right / var(--w) var(--s) no-repeat,
+    linear-gradient(180deg, rgba(36, 33, 34, .94), rgba(15, 14, 16, .97));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .05), 0 10px 26px rgba(0, 0, 0, .5); transition: border-color .15s, transform .15s, box-shadow .15s; }
+a.card:hover, a.card:focus-visible { border-color: rgba(228, 190, 92, .7); transform: translateY(-2px); box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 0 26px rgba(228,190,92,.12), 0 14px 30px rgba(0,0,0,.55); outline: none; }
+.card h3 { margin: 0; font: 800 23px/1.05 var(--display); text-transform: uppercase; letter-spacing: .04em; }
+.card p { color: var(--muted); font-size: 13.5px; line-height: 1.55; }
+.card .go { margin-top: auto; padding-top: 4px; font: 700 12px/1 var(--body); color: var(--gold); letter-spacing: .06em; text-transform: uppercase; }
+.grid.two { grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr)); }
+a.card:has(.badge) h3 { padding-right: 52px; }
+.badge { position: absolute; top: 14px; right: 14px; font: 700 10.5px/1 var(--body); letter-spacing: .06em; text-transform: uppercase; color: #281604; background: linear-gradient(180deg, var(--gold-lt), var(--gold)); border-radius: 999px; padding: 4px 8px; }
+
+details.archive { margin-top: 14px; border: 1px solid var(--line-soft); border-radius: 8px; background: rgba(15,14,16,.7); }
+details.archive summary { cursor: pointer; padding: 14px 18px; font: 800 17px/1 var(--display); text-transform: uppercase; letter-spacing: .06em; color: var(--gold-lt); list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+details.archive summary::-webkit-details-marker { display: none; }
+details.archive summary::after { content: "+"; font-size: 22px; color: var(--gold); }
+details.archive[open] summary::after { content: "–"; }
+details.archive summary small { font: 500 12px var(--body); text-transform: none; letter-spacing: 0; color: var(--faint); margin-left: 8px; }
+.alist { list-style: none; margin: 0; padding: 0 18px 14px; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 2px 18px; }
+.alist a { display: block; padding: 8px 0; border-bottom: 1px solid var(--line-soft); text-decoration: none; color: var(--text); font-size: 13.5px; }
+.alist a:hover { color: var(--gold-lt); }
+.alist span { color: var(--faint); font-size: 12px; }
+
+.social { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+.social a.card h3 { display: flex; align-items: center; gap: 10px; }
+.social svg { width: 28px; height: 20px; flex: none; }
+
+footer { border-top: 1px solid var(--line-soft); padding-top: 16px; color: var(--faint); font-size: 12px; display: flex; flex-direction: column; gap: 4px; }
+footer b { color: var(--muted); }
+@media (max-width: 560px) { .brand { flex-direction: column; align-items: flex-start; } .brand .links { justify-content: flex-start; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="brand">
+    <span class="word goldt">Tyrauku</span>
+    <div class="links">
+      <a class="pill" href="https://www.youtube.com/@TyraukuGaming" target="_blank" rel="noopener"><svg viewBox="0 0 26 18" aria-hidden="true"><rect width="26" height="18" rx="5" fill="var(--yt)"/><path d="M10.5 5.2v7.6l6.4-3.8z" fill="#fff"/></svg>Invokers</a>
+      <a class="pill" href="https://www.youtube.com/@tyraids" target="_blank" rel="noopener"><svg viewBox="0 0 26 18" aria-hidden="true"><rect width="26" height="18" rx="5" fill="var(--yt)"/><path d="M10.5 5.2v7.6l6.4-3.8z" fill="#fff"/></svg>RAID</a>
+      <a class="pill" href="https://discord.gg/bfXwxhRD4A" target="_blank" rel="noopener"><svg viewBox="0 0 26 18" aria-hidden="true"><rect width="26" height="18" rx="5" fill="var(--dc)"/><circle cx="10" cy="9.5" r="1.8" fill="#fff"/><circle cx="16" cy="9.5" r="1.8" fill="#fff"/></svg>Discord</a>
+    </div>
+  </div>
+
+  <header class="hero">
+    <h1><span class="l1 silvert">Tyrauku</span><span class="l2 goldt">Tools</span></h1>
+    <div class="rule"><i></i></div>
+    <p>Free calculators and planners for Invokers: Titan Legacy and RAID: Shadow Legends, all in one place.</p>
+  </header>
+
+  <section>
+    <div class="sh"><div class="row"><h2>Invokers: Titan Legacy</h2></div><span class="note">Paste your box link or a pack's contents and get an answer</span></div>
+    <div class="grid two">
+      <a class="card" href="/invokers-offer-calculator/trophy/">
+        <span class="badge">New</span>
+        <h3 class="silvert">Trophy Hall Planner</h3>
+        <p>Paste your box link and arena medals to see which Trophy Hall upgrades to buy, in order, and what to save for.</p>
+        <span class="go">Open planner →</span>
+      </a>
+      <a class="card" href="/invokers-offer-calculator/who-to-60/">
+        <span class="badge">New</span>
+        <h3 class="silvert">Who to 60 Next</h3>
+        <p>Paste your box link to see which Invokers to take to 60 next, why, and what it costs.</p>
+        <span class="go">Open tool →</span>
+      </a>
+      <a class="card" href="/invokers-offer-calculator/">
+        <h3 class="silvert">Offer Calculator</h3>
+        <p>Is that shop pack worth it? Enter its price and contents to see its gem value against buying gems from the Bank.</p>
+        <span class="go">Open calculator →</span>
+      </a>
+      <a class="card" href="/invokers-offer-calculator/awakening/">
+        <h3 class="silvert">Awakening Calculator</h3>
+        <p>How many dungeon runs, how much energy and how many gems it takes to awaken a unit to your target star.</p>
+        <span class="go">Open calculator →</span>
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <div class="sh"><div class="row"><h2>RAID: Shadow Legends</h2></div><span class="note">Planners from the RAID channel</span></div>
+    <div class="grid">
+      <a class="card" href="/RaidCalculator/">
+        <h3 class="silvert">Offer Calculator</h3>
+        <p>Is that RAID pack worth it? Enter the price and what's inside to see its value.</p>
+        <span class="go">Open calculator →</span>
+      </a>
+      <a class="card" href="/RelicCrafting/">
+        <h3 class="silvert">Relic Crafting Optimizer</h3>
+        <p>Work out the best way to spend your materials when crafting relics.</p>
+        <span class="go">Open optimizer →</span>
+      </a>
+      <a class="card" href="/raid-challenge-tracker/">
+        <h3 class="silvert">5 Legendary Challenge</h3>
+        <p>Tracker for Tyrauku's challenge to beat the game with a team of five Legendary champions.</p>
+        <span class="go">Open tracker →</span>
+      </a>
+    </div>
+
+    <details class="archive">
+      <summary><span>Past event planners<small>13 RAID events, newest first</small></span></summary>
+      <ul class="alist">
+        <li><a href="/7thAnniversaryPath/">Anniversary Path <span>· coin planner</span></a></li>
+        <li><a href="/SweetHeartPath/">Sweetheart Heroes Path <span>· heart coins</span></a></li>
+        <li><a href="/Deck-of-Valor-2-2-26/">Valor Deck of Fate <span>· fate feathers</span></a></li>
+        <li><a href="/YukiandHilviSoul/">Yuki &amp; Hilvi Heroes Path <span>· snow coins</span></a></li>
+        <li><a href="/YuletideDeckofFate/">Yuletide Deck of Fate <span>· fate crystals</span></a></li>
+        <li><a href="/PredatorsPath/">Predator's Path <span>· lethal coins</span></a></li>
+        <li><a href="/SwordmasterPath2025/">Swordmaster Path <span>· pizza coins</span></a></li>
+        <li><a href="/HalloweenPath2025/">Halloween Path <span>· pumpkin coins</span></a></li>
+        <li><a href="/Hothead-DOF/">Hot Head Deck of Fate <span>· pizza points</span></a></li>
+        <li><a href="/hunting-coins/">Orc's Path <span>· hunting coins</span></a></li>
+        <li><a href="/PathofTheLost/">Path of the Lost <span>· calculator</span></a></li>
+        <li><a href="/InfernalDeckofFate/">Infernal Deck of Fate <span>· Gracchos</span></a></li>
+        <li><a href="/demonic-DoF/">Demonic Deck of Fate <span>· calculator</span></a></li>
+      </ul>
+    </details>
+  </section>
+
+  <section>
+    <div class="sh"><div class="row"><h2>Find Tyrauku</h2></div></div>
+    <div class="social">
+      <a class="card" href="https://www.youtube.com/@TyraukuGaming" target="_blank" rel="noopener">
+        <h3 class="silvert"><svg viewBox="0 0 26 18" aria-hidden="true"><rect width="26" height="18" rx="5" fill="var(--yt)"/><path d="M10.5 5.2v7.6l6.4-3.8z" fill="#fff"/></svg>Invokers on YouTube</h3>
+        <p>Guides, math deep dives and account reviews for Invokers: Titan Legacy.</p>
+        <span class="go">@TyraukuGaming →</span>
+      </a>
+      <a class="card" href="https://www.youtube.com/@tyraids" target="_blank" rel="noopener">
+        <h3 class="silvert"><svg viewBox="0 0 26 18" aria-hidden="true"><rect width="26" height="18" rx="5" fill="var(--yt)"/><path d="M10.5 5.2v7.6l6.4-3.8z" fill="#fff"/></svg>RAID on YouTube</h3>
+        <p>RAID: Shadow Legends videos, events and challenges.</p>
+        <span class="go">@tyraids →</span>
+      </a>
+      <a class="card" href="https://discord.gg/bfXwxhRD4A" target="_blank" rel="noopener">
+        <h3 class="silvert"><svg viewBox="0 0 26 18" aria-hidden="true"><rect width="26" height="18" rx="5" fill="var(--dc)"/><circle cx="10" cy="9.5" r="1.8" fill="#fff"/><circle cx="16" cy="9.5" r="1.8" fill="#fff"/></svg>Discord</h3>
+        <p>Ask questions, find a clan and get pinged for new videos.</p>
+        <span class="go">Join the server →</span>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <span><b>Built by Tyrauku</b></span>
+    <span>Fan-made tools. Not affiliated with or endorsed by HitZone or Plarium.</span>
+  </footer>
+</div>
+</body>
+</html>
